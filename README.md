@@ -42,6 +42,7 @@ set PYTHONPATH=src            (PowerShell: $env:PYTHONPATH="src")
 python -m mini_sclate.run --days 30 --mode history            # mock model, no key needed
 python -m mini_sclate.run --days 30 --flaky 0.4               # inject cron failures
 python -m mini_sclate.run --days 30 --mode history --model groq
+python -m mini_sclate.run --days 30 --mode hard --model groq --model-id openai/gpt-oss-120b --configs extract+consolidate --max-tokens 4096
 python -m unittest discover -s tests
 ```
 For `--model groq` or `--model anthropic`, copy `.env.example` to `.env` and fill in the key (`.env` is gitignored).
@@ -135,7 +136,7 @@ attribute under different names ("gym locker code" / "gym locker combination", "
 badge number", "parking spot" / "parking space"), so the consolidation step, which dedupes on the exact attribute
 string, kept both an old and a new value and the answer step sometimes picked the old one. That is the same kind of
 weakness the paper reports for added memories, found here by reading the stored lines, not proven by the paper.
-A model-based consolidation call (as in Hindsight/GBrain) is the obvious fix and is not built. One seed, 20 questions.
+The model-based consolidation call that addresses this (as in Hindsight/GBrain) is the next section. One seed, 20 questions.
 
 ### Model-based consolidation (`extract+consolidate`)
 Adds a nightly model call that merges lines about the same person and attribute even when worded differently
@@ -144,31 +145,32 @@ Adds a nightly model call that merges lines about the same person and attribute 
 | model | extract | extract + consolidate |
 |---|---|---|
 | Haiku 5.5 via Claude Code | 0.85 | 0.95 |
-| gpt-oss-120b | 0.95 | 0.40 |
+| gpt-oss-120b, 1,024-token output budget | 0.95 | 0.40 |
+| gpt-oss-120b, 4,096-token output budget (`--max-tokens 4096`) | 0.95 | **1.00** |
 | gpt-oss-20b | 0.85 | not completed (stopped twice: at 69 of 190 calls by memory pressure, then at 132 of 190 by me because Groq rate limits made it take hours) |
 
-Two different stories from one change. With Haiku 5.5 the merge removed the duplicate stale values and reached 0.95;
-one fact (Lena's locker) was still lost because the model dropped it from the merged list despite the instruction.
-With gpt-oss-120b it went badly: 7 of 30 consolidation calls produced no parseable lines (dead after retries) and the
-memory ended with 14 lines instead of about 30, so many facts were lost (8 of 20 right). I have not diagnosed why
-(output format, truncation and over-aggressive merging are all possible), so treat the 0.40 as a failure of this
-prompt on this model, not a general result. The takeaway I can stand behind: a model-written consolidation step can
-fix stale duplicates, but it is lossy and its reliability depends on the model; a safeguard that refuses a merge
-that shrinks the memory too much would be the next thing to try. One seed, 20 questions, one run each.
+With Haiku 5.5 the merge removed the duplicate stale values and reached 0.95; one fact (Lena's locker) was still lost
+because the model dropped it from the merged list despite the instruction.
 
-## What this does not show
+The 0.40 for gpt-oss-120b was truncation, not the merge prompt. At the original 1,024-token output budget, 30 calls
+ended at the ceiling (the stored usage shows `tokens_out` = 1024), because gpt-oss spends part of that budget on
+reasoning. 7 consolidation calls produced no parseable lines (dead after retries) and the memory ended with 14 lines
+instead of about 30 (8 of 20 right). Rerunning the same configuration (same data, seed and prompt) with a 4,096-token
+budget gave 20 of 20, with no retries and no dead fires; the longest reply was 1,892 tokens, so the merged list simply
+did not fit in 1,024. A model-written consolidation step can fix stale duplicates, and it is lossy whenever its reply
+is cut short or the model drops a line, so its output budget is part of its correctness. Report:
+`reports/hard-extract-consolidate-groq-gpt-oss-120b-4096.md` (the truncated run is kept in
+`reports/hard-extract-consolidate-groq-gpt-oss-120b-FAILED-PARSE.md`). One seed, 20 questions, one run each.
+
+## Scope
 - **Not a replication of the paper's findings.** The memories are toy baselines I wrote. The ties at 1.00 come from
-  how they are built. The capped-vs-added gap is built in. Nothing here supports or contradicts the paper's claim
+  how they are built, and the capped-vs-added gap is built in. Nothing here supports or contradicts the paper's claim
   that an added memory system does not reliably beat a harness's native memory.
-- **The default benchmark is easy (hard mode above is the harder one).** One lookup per question, so a competent model answers correctly whenever the right
-  line is in the prompt. It cannot tell models apart. I have run only one model. Harder questions (similar keys,
-  paraphrase, conflicting values) would be needed for that.
-- **One seed, small samples.** 20 to 60 questions per config. Differences of a few points are noise.
-- **Not replicated:** containers, libfaketime (only the prompt sees the simulated date), mid-turn event arrival
+- **Models:** the default benchmark has one lookup per question, so any competent model answers it when the right line
+  is in the prompt and it cannot tell models apart. Hard mode separates three models (gpt-oss-20b, gpt-oss-120b,
+  Haiku 5.5) and is where the model comparisons above come from.
+- **Samples:** one seed and 20 to 60 questions per config, so differences of a few points are within noise.
+- **Left out of the rebuild:** containers, libfaketime (only the prompt sees the simulated date), mid-turn event arrival
   (each fire runs to completion), the capture proxy's log probabilities, the real harnesses and memory systems, the
-  seven ported benchmarks, post-training.
+  seven ported benchmarks, post-training. `notes/fidelity.md` has the full table.
 - A failing fire blocks later fires from the same source until it succeeds or is dead-lettered.
-
-## Next steps
-Make the benchmark harder, run a second model for comparison, add a second benchmark adapter, and persist the
-agent's working state so a crash mid-session resumes.

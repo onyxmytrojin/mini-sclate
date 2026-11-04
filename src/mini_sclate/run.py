@@ -88,6 +88,7 @@ def main() -> None:
     ap.add_argument("--configs", default=None, help="comma-separated subset of: " + ", ".join(CONFIGS))
     ap.add_argument("--model", choices=["mock", "anthropic", "groq", "claudecode"], default="mock")
     ap.add_argument("--model-id", default=None, help="default: claude-haiku-5-5 (anthropic), openai/gpt-oss-20b (groq)")
+    ap.add_argument("--max-tokens", type=int, default=1024, help="output budget per call for --model groq (reasoning tokens count)")
     ap.add_argument("--out", default="results")
     a = ap.parse_args()
     if a.configs is None:
@@ -104,7 +105,7 @@ def main() -> None:
         if a.model == "anthropic":
             return AnthropicModel(model_id)
         if a.model == "groq":
-            return GroqModel(model_id)
+            return GroqModel(model_id, max_tokens=a.max_tokens)
         if a.model == "claudecode":
             from .claude_code_model import ClaudeCodeModel
             return ClaudeCodeModel("spend_ledger.json", 2.0, log_path=os.path.join(a.out, "proxy-calls.jsonl"))

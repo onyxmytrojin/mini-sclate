@@ -93,8 +93,9 @@ class GroqModel:
     URL = "https://api.groq.com/openai/v1/chat/completions"
 
     def __init__(self, model: str = "openai/gpt-oss-20b", api_key: str | None = None, post=None,
-                 max_429_retries: int = 6):
+                 max_429_retries: int = 6, max_tokens: int = 1024):
         self.model = model
+        self.max_tokens = max_tokens
         self.api_key = api_key or os.environ.get("GROQ_API_KEY")
         self._post = post or self._http_post
         self.max_429_retries = max_429_retries
@@ -117,7 +118,7 @@ class GroqModel:
                 time.sleep(min(float(e.headers.get("retry-after") or 2 ** attempt), 30))
 
     def complete(self, prompt: str, system: str | None = None) -> str:
-        resp = self._post({"model": self.model, "temperature": 0, "max_tokens": 1024,
+        resp = self._post({"model": self.model, "temperature": 0, "max_tokens": self.max_tokens,
                            "reasoning_effort": "low",
                            "messages": [{"role": "system", "content": system or AnthropicModel.SYSTEM},
                                         {"role": "user", "content": prompt}]})
