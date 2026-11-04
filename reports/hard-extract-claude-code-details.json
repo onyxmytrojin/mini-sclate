@@ -1,0 +1,324 @@
+{
+ "graded": {
+  "ask:29:0": {
+   "expected": "4966",
+   "got": "4966"
+  },
+  "ask:29:1": {
+   "expected": "9918",
+   "got": "9918"
+  },
+  "ask:29:2": {
+   "expected": "4655",
+   "got": "4655"
+  },
+  "ask:29:3": {
+   "expected": "4304",
+   "got": "2501"
+  },
+  "ask:29:4": {
+   "expected": "6180",
+   "got": "6180"
+  },
+  "ask:29:5": {
+   "expected": "2900",
+   "got": "2900"
+  },
+  "ask:29:6": {
+   "expected": "3550",
+   "got": "3550"
+  },
+  "ask:29:7": {
+   "expected": "5807",
+   "got": "5807"
+  },
+  "ask:29:8": {
+   "expected": "3185",
+   "got": "3185"
+  },
+  "ask:29:9": {
+   "expected": "8727",
+   "got": "8727"
+  },
+  "ask:29:10": {
+   "expected": "5954",
+   "got": "9987"
+  },
+  "ask:29:11": {
+   "expected": "5274",
+   "got": "5274"
+  },
+  "ask:29:12": {
+   "expected": "4618",
+   "got": "4618"
+  },
+  "ask:29:13": {
+   "expected": "1693",
+   "got": "1693"
+  },
+  "ask:29:14": {
+   "expected": "2046",
+   "got": "2046"
+  },
+  "ask:29:15": {
+   "expected": "2424",
+   "got": "unknown"
+  },
+  "ask:29:16": {
+   "expected": "8296",
+   "got": "8296"
+  },
+  "ask:29:17": {
+   "expected": "7452",
+   "got": "7452"
+  },
+  "ask:29:18": {
+   "expected": "1689",
+   "got": "1689"
+  },
+  "ask:29:19": {
+   "expected": "4144",
+   "got": "4144"
+  }
+ },
+ "asks": {
+  "ask:29:0": "What combination opens Lena's gym locker?",
+  "ask:29:1": "What number is on Maya's badge?",
+  "ask:29:2": "What extension reaches Nora?",
+  "ask:29:3": "What combination opens Omar's gym locker?",
+  "ask:29:4": "What is Owen's badge ID?",
+  "ask:29:5": "What number is on Omar's badge?",
+  "ask:29:6": "Where does Lena park?",
+  "ask:29:7": "What is Noah's gym locker code?",
+  "ask:29:8": "What combination opens Liam's gym locker?",
+  "ask:29:9": "What combination opens Maya's gym locker?",
+  "ask:29:10": "What is Nora's gym locker code?",
+  "ask:29:11": "What is Nora's badge ID?",
+  "ask:29:12": "What is Mia's gym locker code?",
+  "ask:29:13": "Which parking space does Maya use?",
+  "ask:29:14": "What extension reaches Mia?",
+  "ask:29:15": "What combination opens Owen's gym locker?",
+  "ask:29:16": "What is Noah's badge ID?",
+  "ask:29:17": "What number is on Mia's badge?",
+  "ask:29:18": "Where does Nora park?",
+  "ask:29:19": "Which phone extension is Owen's desk on?"
+ },
+ "memory_lines": [
+  [
+   "extract",
+   "lena | office badge number | 4578"
+  ],
+  [
+   "extract",
+   "lena | badge number | 8113"
+  ],
+  [
+   "extract",
+   "Lena | gym locker code | 2031"
+  ],
+  [
+   "extract",
+   "omar | gym locker combination | 2501"
+  ],
+  [
+   "extract",
+   "lena | gym locker combination | 4966"
+  ],
+  [
+   "extract",
+   "noah | extension | 4102"
+  ],
+  [
+   "extract",
+   "maya | badge number | 5260"
+  ],
+  [
+   "extract",
+   "Owen | parking space | 9594"
+  ],
+  [
+   "extract",
+   "liam | parking space | 8382"
+  ],
+  [
+   "extract",
+   "Owen | extension | 2018"
+  ],
+  [
+   "extract",
+   "maya | office badge number | 1354"
+  ],
+  [
+   "extract",
+   "Mia | gym locker code | 4618"
+  ],
+  [
+   "extract",
+   "lena | parking space | 9674"
+  ],
+  [
+   "extract",
+   "maya | gym locker combination | 8727"
+  ],
+  [
+   "extract",
+   "liam | gym locker code | 3513"
+  ],
+  [
+   "extract",
+   "maya | badge | 9918"
+  ],
+  [
+   "extract",
+   "lena | badge | 5716"
+  ],
+  [
+   "extract",
+   "nora | desk phone extension | 4655"
+  ],
+  [
+   "extract",
+   "Noah | office badge number | 8296"
+  ],
+  [
+   "extract",
+   "Nora | gym locker code | 9987"
+  ],
+  [
+   "extract",
+   "noah | gym locker combination | 1241"
+  ],
+  [
+   "extract",
+   "Owen | office badge number | 6180"
+  ],
+  [
+   "extract",
+   "mia | office badge number | 4120"
+  ],
+  [
+   "extract",
+   "nora | gym locker combination | 5954"
+  ],
+  [
+   "extract",
+   "Owen | parking spot | 2332"
+  ],
+  [
+   "extract",
+   "liam | gym locker combination | 3185"
+  ],
+  [
+   "extract",
+   "mia | desk phone extension | 3530"
+  ],
+  [
+   "extract",
+   "maya | parking spot | 1693"
+  ],
+  [
+   "extract",
+   "nora | parking space | 5254"
+  ],
+  [
+   "extract",
+   "lena | desk phone extension | 1688"
+  ],
+  [
+   "extract",
+   "Noah | desk phone extension | 4405"
+  ],
+  [
+   "extract",
+   "Liam | office badge number | 1145"
+  ],
+  [
+   "extract",
+   "Liam | parking spot | 3684"
+  ],
+  [
+   "extract",
+   "liam | badge number | 6913"
+  ],
+  [
+   "extract",
+   "Noah | gym locker code | 5807"
+  ],
+  [
+   "extract",
+   "Omar | office badge number | 4927"
+  ],
+  [
+   "extract",
+   "liam | desk phone extension | 7605"
+  ],
+  [
+   "extract",
+   "Liam | extension | 7794"
+  ],
+  [
+   "extract",
+   "Omar | badge | 2900"
+  ],
+  [
+   "extract",
+   "Lena | parking spot | 3550"
+  ],
+  [
+   "extract",
+   "owen | gym locker code | 2424"
+  ],
+  [
+   "extract",
+   "mia | parking spot | 4244"
+  ],
+  [
+   "extract",
+   "maya | extension | 7304"
+  ],
+  [
+   "extract",
+   "mia | badge | 7452"
+  ],
+  [
+   "extract",
+   "nora | office badge number | 5274"
+  ],
+  [
+   "extract",
+   "owen | desk phone extension | 4144"
+  ],
+  [
+   "extract",
+   "mia | extension | 2046"
+  ],
+  [
+   "extract",
+   "Omar | gym locker code | 4304"
+  ],
+  [
+   "extract",
+   "Nora | parking spot | 1689"
+  ],
+  [
+   "extract",
+   "Noah | parking spot | 2714"
+  ],
+  [
+   "extract",
+   "omar | parking space | 7193"
+  ],
+  [
+   "extract",
+   "Noah | parking space | 7650"
+  ],
+  [
+   "extract",
+   "Omar | desk phone extension | 6283"
+  ],
+  [
+   "extract",
+   "omar | extension | 4309"
+  ]
+ ]
+}

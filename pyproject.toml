@@ -1,0 +1,12 @@
+[project]
+name = "mini-sclate"
+version = "0.1.0"
+description = "Mini rebuild of the SCLATE event-scheduler idea for agent evaluation"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

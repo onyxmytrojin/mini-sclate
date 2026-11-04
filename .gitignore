@@ -1,0 +1,9 @@
+.env
+results*/
+__pycache__/
+*.pyc
+*.db
+notes/sclate-paper.md
+spend_ledger.json
+.cc-scratch/
+*.log
